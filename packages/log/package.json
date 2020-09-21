@@ -1,0 +1,28 @@
+{
+  "name": "log",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "automate": {
+    "stepId": "LOG",
+    "type": "ACTION",
+    "name": "Debug Log",
+    "description": "Logs a value for debugging",
+    "tagline": "Log {{inputs.value}}",
+    "icon": "ri-bug-fill",
+    "schema": {
+      "inputs": {
+        "properties": {
+          "value": {
+            "type": "string",
+            "title": "Value"
+          }
+        },
+        "required": "value"
+      }
+    }
+  },
+  "scripts": {
+    "build": "rollup --config ../../config/rollup.automate.config.mjs"
+  }
+}

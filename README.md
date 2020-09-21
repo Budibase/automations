@@ -1,2 +1,1 @@
-# automations
-Automations for Budibase applications
+# budibase-automate
