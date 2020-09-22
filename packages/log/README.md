@@ -1,4 +1,4 @@
-# log
+# Log Automation
 
 Logs whatever input is passed in. Great for debugging when building large automations!
 
@@ -6,7 +6,7 @@ Logs whatever input is passed in. Great for debugging when building large automa
 
 |Name|Type|Description|
 |--|--|--|
-|`value`|`String`|The value to log.
+|`value`|`string`|The value to log.|
 
 ### Outputs
 

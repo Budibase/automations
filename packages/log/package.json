@@ -7,7 +7,7 @@
     "stepId": "log",
     "type": "ACTION",
     "name": "Debug Log",
-    "description": "Logs a value for debugging",
+    "description": "Log a value for debugging",
     "tagline": "Log {{inputs.value}}",
     "icon": "ri-bug-fill",
     "schema": {
@@ -18,7 +18,7 @@
             "title": "Value"
           }
         },
-        "required": "value"
+        "required": ["value"]
       }
     }
   },
