@@ -1,0 +1,19 @@
+{
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 2019,
+    "sourceType": "module",
+    "allowImportExportEverywhere": true
+  },
+  "ignorePatterns": ["node_modules", "dist", "public", "bundle.js"],
+  "plugins": ["prettier"],
+  "extends": ["eslint:recommended"],
+  "rules": {
+    "prettier/prettier": "error",
+    "no-self-assign": "off"
+  }
+}

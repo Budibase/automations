@@ -2,13 +2,15 @@
   "name": "budibase-automate",
   "description": "Collection of Budibase automations",
   "scripts": {
+    "package:new": "node scripts/build-new-package.js",
     "bootstrap": "lerna bootstrap",
     "build:automations": "lerna run build",
     "build:manifest": "node scripts/build-manifest.js",
     "build:tar": "node scripts/build-tar.js",
     "build": "run-s bootstrap build:automations build:manifest build:tar",
     "publish": "node scripts/publish.js",
-    "publish:ci": "run-s build publish"
+    "publish:ci": "run-s build publish",
+    "format": "prettier --write \"{,!(node_modules)/**/}*.{js,jsx,svelte}\""
   },
   "dependencies": {
     "fs-extra": "^9.0.1",
@@ -19,8 +21,13 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
     "aws-sdk": "^2.757.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^7.9.0",
+    "inquirer": "^7.3.3",
     "lerna": "^3.22.1",
     "npm-run-all": "^4.1.5",
+    "prettier": "^2.1.2",
     "rollup": "^2.26.11",
     "rollup-plugin-terser": "^7.0.2"
   }
