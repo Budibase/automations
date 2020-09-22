@@ -2,10 +2,11 @@
   "name": "budibase-automate",
   "description": "Collection of Budibase automations",
   "scripts": {
+    "bootstrap": "lerna bootstrap",
     "build:automations": "lerna run build",
     "build:manifest": "node scripts/build-manifest.js",
     "build:tar": "node scripts/build-tar.js",
-    "build": "run-s build:automations build:manifest build:tar",
+    "build": "run-s bootstrap build:automations build:manifest build:tar",
     "publish": "node scripts/publish.js",
     "publish:ci": "run-s build publish"
   },
