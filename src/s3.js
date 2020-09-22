@@ -59,6 +59,7 @@ module.exports = function () {
     };
     return new Promise(((resolve, reject) => {
       s3.sdk.createBucket(params, err => {
+        // Code 409 means bucket already exists, which is acceptable
         if (err == null || err.statusCode === 409) {
           resolve();
         } else {
