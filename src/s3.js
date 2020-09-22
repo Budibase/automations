@@ -14,7 +14,6 @@ module.exports = function () {
    */
   s3.init = async function () {
     s3.sdk = await s3.getAuthenticatedSdk();
-    console.log("Successfully authenticated with AWS")
   };
 
   /**
@@ -24,6 +23,7 @@ module.exports = function () {
    * @returns {object} an authenticated S3 service
    */
   s3.getAuthenticatedSdk = function () {
+    console.log("Authenticating with AWS...")
     return new Promise((resolve, reject) => {
       if (process.env.AWS_ACCESS_KEY_ID) {
         // Auth via ENV variables
@@ -52,7 +52,6 @@ module.exports = function () {
    */
   s3.ensureBucketExists = function () {
     console.log("Checking S3 bucket exists...")
-    console.log(constants.AWS_S3_BUCKET_NAME)
     const params = {
       Bucket: constants.AWS_S3_BUCKET_NAME,
       CreateBucketConfiguration: {
@@ -61,8 +60,6 @@ module.exports = function () {
     };
     return new Promise(((resolve, reject) => {
       s3.sdk.createBucket(params, err => {
-        console.log("error:");
-        console.log(err);
         // Code 409 means bucket already exists, which is acceptable
         if (err == null || err.statusCode === 409) {
           resolve();
@@ -104,13 +101,13 @@ module.exports = function () {
    * @param key the S3 key to upload the file as (forward slashes are interpreted as directories in S3)
    */
   s3.upload = function (filePath, key) {
+    console.log(`Uploading ${key}...`);
     const file = fs.readFileSync(filePath);
     const params = {
       Bucket: constants.AWS_S3_BUCKET_NAME,
       Key: key,
       Body: file
     };
-    console.log(`Uploading ${key}...`);
     return s3.sdk.upload(params).promise();
   };
 }
