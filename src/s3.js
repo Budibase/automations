@@ -52,6 +52,9 @@ module.exports = function () {
    */
   s3.ensureBucketExists = function () {
     console.log("Checking S3 bucket exists...")
+    if (constants.AWS_S3_BUCKET_NAME == null || !constants.AWS_S3_BUCKET_NAME.length) {
+      throw "No bucket name configured!";
+    }
     const params = {
       Bucket: constants.AWS_S3_BUCKET_NAME,
       CreateBucketConfiguration: {
