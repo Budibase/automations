@@ -1,6 +1,7 @@
 import resolve from "@rollup/plugin-node-resolve";
 import commonJS from "@rollup/plugin-commonjs";
 import { terser } from "rollup-plugin-terser";
+import json from "@rollup/plugin-json";
 
 export default {
     input: "src/index.js",
@@ -13,6 +14,9 @@ export default {
         resolve({
             mainFields: ["main", "module"]
         }),
+
+        // Support loading JSON files
+        json(),
 
         // Support loading CJS modules since we're targeting node
         commonJS(),
