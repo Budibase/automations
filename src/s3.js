@@ -51,6 +51,8 @@ module.exports = function () {
    * Ensures the target S3 bucket exists, and creates it if it does not.
    */
   s3.ensureBucketExists = function () {
+    console.log("Checking S3 bucket exists...")
+    console.log(constants.AWS_S3_BUCKET_NAME)
     const params = {
       Bucket: constants.AWS_S3_BUCKET_NAME,
       CreateBucketConfiguration: {
@@ -59,6 +61,8 @@ module.exports = function () {
     };
     return new Promise(((resolve, reject) => {
       s3.sdk.createBucket(params, err => {
+        console.log("error:");
+        console.log(err);
         // Code 409 means bucket already exists, which is acceptable
         if (err == null || err.statusCode === 409) {
           resolve();
@@ -73,6 +77,7 @@ module.exports = function () {
    * Sets the S3 bucket policy to default new files to public read access.
    */
   s3.configureBucketPolicy = function () {
+    console.log("Setting public access policy on S3 bucket...")
     const publicPolicy = {
       "Version": "2012-10-17",
       "Statement": [
