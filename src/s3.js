@@ -2,15 +2,27 @@ const AWS = require("aws-sdk");
 const fs = require("fs-extra");
 const constants = require("./constants");
 
+/**
+ * Module for interacting with AWS S3.
+ */
 module.exports = function () {
   let s3 = this;
   s3.sdk = null;
 
+  /**
+   * Sets up the S3 SDK for use.
+   */
   s3.init = async function () {
     s3.sdk = await s3.getAuthenticatedSdk();
     console.log("Successfully authenticated with AWS")
   };
 
+  /**
+   * Authenticates AWS keys and generates a S3 SDK service to be used.
+   * AWS region is set as defined in constants.
+   *
+   * @returns {object} an authenticated S3 service
+   */
   s3.getAuthenticatedSdk = function () {
     return new Promise((resolve, reject) => {
       if (process.env.AWS_ACCESS_KEY_ID) {
@@ -35,6 +47,9 @@ module.exports = function () {
     })
   };
 
+  /**
+   * Ensures the target S3 bucket exists, and creates it if it does not.
+   */
   s3.ensureBucketExists = function () {
     const params = {
       Bucket: constants.AWS_S3_BUCKET_NAME,
@@ -53,6 +68,9 @@ module.exports = function () {
     }));
   };
 
+  /**
+   * Sets the S3 bucket policy to default new files to public read access.
+   */
   s3.configureBucketPolicy = function () {
     const publicPolicy = {
       "Version": "2012-10-17",
@@ -73,6 +91,12 @@ module.exports = function () {
     return s3.sdk.putBucketPolicy(params).promise();
   }
 
+  /**
+   * Uploads a file to the S3 bucket.
+   *
+   * @param filePath the path to the file to upload
+   * @param key the S3 key to upload the file as (forward slashes are interpreted as directories in S3)
+   */
   s3.upload = function (filePath, key) {
     const file = fs.readFileSync(filePath);
     const params = {

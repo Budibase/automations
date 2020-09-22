@@ -2,15 +2,24 @@ const fs = require("fs-extra");
 const path = require("path");
 const tar = require("tar");
 const S3 = require("./s3");
+const Worker = require("./worker");
 const Automation = require("./automation");
 
+/**
+ * Controller responsible for orchestrating automation functions.
+ */
 module.exports = function () {
   const controller = this;
+  controller.worker = new Worker(controller);
   controller.automations = [];
   controller.rootPath = path.join(__dirname, "..");
   controller.package = require(path.join(controller.rootPath, "package.json"));
 
-  controller.discoverAutomations = () => {
+  /**
+   * Discovers available automations and parses them.
+   * Must be called before building automations.
+   */
+  controller.discoverAutomations = controller.worker.do(() => {
     const automationsPath = path.join(controller.rootPath, "packages");
     const directories = fs.readdirSync(automationsPath);
     let automations = [];
@@ -23,18 +32,22 @@ module.exports = function () {
       }
     });
     controller.automations = automations;
-    return this;
-  };
+  });
 
-  controller.listAutomations = () => {
+  /**
+   * Prints a list of all available automations and their versions.
+   */
+  controller.listAutomations = controller.worker.do(() => {
     console.log(`${controller.automations.length} automation(s) found.`)
     controller.automations.forEach(automation => {
       console.log(automation.getSummary());
     });
-    return this;
-  };
+  });
 
-  controller.buildManifest = () => {
+  /**
+   * Builds the manifest file of all available automations.
+   */
+  controller.buildManifest = controller.worker.do(() => {
     // Remove any old manifest
     const distPath = path.join(controller.rootPath, "dist");
     fs.ensureDirSync(distPath);
@@ -44,18 +57,19 @@ module.exports = function () {
     // Write new manifest
     console.log(`Writing manifest to ${manifestPath}...`)
     try {
-      let manifest = {version: controller.package.version};
+      let manifest = {};
       const automations = controller.automations.map(x => x.getManifestEntry());
       manifest.automations = automations;
       fs.writeJsonSync(manifestPath, automations, {spaces: "\t"});
-      console.log("Manifest written successfully.")
     } catch (error) {
       console.log(`\nError building and writing manifest: \n${error}\n`);
     }
-    return this;
-  };
+  });
 
-  controller.buildTar = () => {
+  /**
+   * Builds a compressed tar file of all available built automations.
+   */
+  controller.buildTar = controller.worker.do(() => {
     // Remove any old bundles
     const distAutomationsPath = path.join(controller.rootPath, "dist", "automations");
     fs.removeSync(distAutomationsPath);
@@ -75,6 +89,7 @@ module.exports = function () {
     fs.removeSync(tarPath);
 
     // Create new tar file
+    console.log(`Writing tar bundle to ${tarPath}...`)
     const cwd = path.join(controller.rootPath, "dist");
     tar.c({
       gzip: true,
@@ -82,10 +97,13 @@ module.exports = function () {
       sync: true,
       cwd
     }, ["automations"]);
-    return this;
-  };
+  });
 
-  controller.publish = async () => {
+  /**
+   * Publishes the manifest, tar file and individual built automations to a S3 bucket.
+   * Individual automations are published under the path [name]/[version]/[name]@[version].min.js.
+   */
+  controller.publish = controller.worker.do(async () => {
     // Authenticate with AWS and ensure S3 bucket exists
     const s3 = new S3();
     await s3.init();
@@ -120,5 +138,5 @@ module.exports = function () {
         console.log(error);
       }
     }
-  }
+  });
 }
