@@ -1,10 +1,10 @@
 {
   "name": "log",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "src/index.js",
   "type": "commonjs",
   "automate": {
-    "stepId": "LOG",
+    "stepId": "log",
     "type": "ACTION",
     "name": "Debug Log",
     "description": "Logs a value for debugging",

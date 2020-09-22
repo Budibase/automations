@@ -58,7 +58,11 @@ module.exports = function () {
     console.log(`Writing manifest to ${manifestPath}...`)
     try {
       let manifest = {};
-      manifest.packages = controller.automations.map(automation => automation.getManifestEntry());
+      manifest.packages = {};
+      const automations = controller.automations.map(automation => automation.getManifestEntry());
+      automations.forEach(automation => {
+        manifest.packages[automation.stepId] = automation;
+      })
       fs.writeJsonSync(manifestPath, manifest, {spaces: "\t"});
     } catch (error) {
       console.log(`\nError building and writing manifest: \n${error}\n`);
