@@ -1,12 +1,33 @@
 # Budibase Automations
 
-> **Snazzy description of automations.**
+> We are going through the process where software will automate software, automation will automate automation.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Welcome to Budibase Automations, this repo contains all install-able automations that are currently available to a Budibase app.
+We welcome contributions of new ways of creating automated processes within our user's apps, infact we've tried to make it 
+as easy as possible!
 
-## Creating an Automation
+## Creating a new Automation
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+The process of creating a new automation is quite simple, the easiest method to do this is to run `yarn new` at the 
+top level directory. This will walk you through the steps of creating a new package in the command line - it should be 
+noted that all of the information provided can be easily changed, it will be input to an `automate` section in the new package's
+`package.json`.
+
+The process will appear as such (example is for the Integromat Automation):
+![image](https://user-images.githubusercontent.com/4407001/93998672-c45e8900-fd8c-11ea-90ff-032550ee9d9f.png)
+
+Once you've ran through this process the package will exist under `packages/<Package Name>` all that is required is adding
+any required packages, updating the `README.md` to provide information about what your automation does and the runner source code,
+found under `src/index.js`. The runner must export an async function with takes the an object of format:
+```
+{
+  inputs: {
+    ...specified inputs here
+  },
+  instanceId: <CUSTOMER INSTANCE ID>
+}
+```
+The runner must also return an object in the correct format based on the outputs specified.
 
 ## Building and Publishing
 

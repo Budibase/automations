@@ -3,6 +3,17 @@ const fs = require("fs")
 const path = require("path")
 
 const DEFAULT_INDEX = "module.exports = async function ({ inputs }) {}"
+const JSON_SCHEMA_TYPES = ["string", "boolean", "number", "object", "array"]
+
+function Property(name, options, defaultValue) {
+  this.name = name
+  if (options) {
+    this.options = options
+  }
+  if (defaultValue) {
+    this.default = defaultValue
+  }
+}
 
 function makeNewPackage(pkgName, packageJson) {
   let pkgDirectory = path.join("packages", pkgName)
@@ -25,12 +36,16 @@ async function prompt(prompt, opts = {}) {
     question.default = opts.default
   }
   if (opts.options != null) {
+    question.type = "list"
     question.choices = opts.options
   }
   return (await inquirer.prompt(question)).value
 }
 
-async function getListOfAttributes(propName, properties) {
+async function buildObject(propName, properties) {
+  if (properties.length === 0 || !(properties[0] instanceof Property)) {
+    throw "Cannot create object with no valid properties"
+  }
   let keepGoing = true
   let attributes = {}
   do {
@@ -40,8 +55,11 @@ async function getListOfAttributes(propName, properties) {
     }
     let attributeName = await prompt(`new ${propName} name>`)
     let attribute = {}
-    for (let key of properties) {
-      attribute[key] = await prompt(`${propName}.${key}>`)
+    for (let property of properties) {
+      attribute[property.name] = await prompt(`${propName}.${property.name}>`, {
+        options: property.options,
+        default: property.default,
+      })
     }
     attributes[attributeName] = attribute
   } while (keepGoing)
@@ -49,6 +67,7 @@ async function getListOfAttributes(propName, properties) {
 }
 
 async function run() {
+  console.log("This process will walk you through creating a new package.")
   let pkgName = await prompt("Package name>")
   let prettyName = await prompt("Package pretty name>", { default: pkgName })
   let version = await prompt("Package version>", { default: "1.0.0" })
@@ -61,8 +80,14 @@ async function run() {
     default: `Information about ${pkgName}`,
   })
   let icon = await prompt("Package icon>", { default: "ri-flashlight-fill" })
-  let inputs = await getListOfAttributes("inputs", ["type", "title"])
-  let outputs = await getListOfAttributes("outputs", ["type", "description"])
+  let inputs = await buildObject("inputs", [
+    new Property("type", JSON_SCHEMA_TYPES),
+    new Property("title"),
+  ])
+  let outputs = await buildObject("outputs", [
+    new Property("type", JSON_SCHEMA_TYPES),
+    new Property("description"),
+  ])
   let packageJson = {
     version,
     main: "src/index.js",

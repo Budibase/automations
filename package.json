@@ -1,8 +1,9 @@
 {
   "name": "budibase-automate",
   "description": "Collection of Budibase automations",
+  "license": "UNLICENSED",
   "scripts": {
-    "package:new": "node scripts/build-new-package.js",
+    "new": "node scripts/new-package.js",
     "bootstrap": "lerna bootstrap",
     "build:automations": "lerna run build",
     "build:manifest": "node scripts/build-manifest.js",
