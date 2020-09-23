@@ -18,13 +18,13 @@ The process will appear as such (example is for the Integromat Automation):
 
 Once you've ran through this process the package will exist under `packages/<Package Name>`.
 The next step is to develop your automation, using `src/index.js` as your entry point. You can add as many
-dependencies as you require - they'll be automatically bundled with your automation and handled for you.
+dependencies as you require - they'll be automatically bundled with your automation.
 
 Your automation must export an async function with takes a single object parameter of format:
 ```
 {
   inputs: {
-    ...specified inputs here
+    // ...configured inputs
   },
   instanceId: <CUSTOMER INSTANCE ID>
 }
