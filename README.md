@@ -12,7 +12,7 @@ as easy as possible to do so.
 
 The process of creating a new automation is quite simple. The easiest method to do this is to run `yarn new` at the 
 top level directory. This will walk you through the steps of creating a new automation in the command line. It should be 
-noted that all of the information provided can be easily changed, and will be input to an `automate` section in the new automations's
+noted that all of the information provided can be easily changed, and will be put into an `automate` section in the new automation's
 `package.json`. This scipt will generate the boilerplate configuration required for new your automation.
 
 The process will appear as such (example is for the Integromat Automation):
