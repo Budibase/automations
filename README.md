@@ -1,6 +1,8 @@
 # Budibase Automations
 
-> Budibase makes building software easy. Automations make your processes and integrations even easier.
+> *“We are going through the process where software will automate software, automation will automate automation.”*<br>
+> -&nbsp;Mark Cuban
+
 
 Welcome to Budibase Automations! This repo contains all the installable automations that are currently available to Budibase apps.
 We welcome contributions of new ways of creating automated processes within our users' apps, and we've tried to make it 
