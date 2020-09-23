@@ -1,24 +1,26 @@
 # Budibase Automations
 
-> We are going through the process where software will automate software, automation will automate automation.
+> Budibase makes building software easy. Automations make your processes and integrations even easier.
 
-Welcome to Budibase Automations, this repo contains all install-able automations that are currently available to a Budibase app.
-We welcome contributions of new ways of creating automated processes within our user's apps, infact we've tried to make it 
-as easy as possible!
+Welcome to Budibase Automations! This repo contains all the installable automations that are currently available to Budibase apps.
+We welcome contributions of new ways of creating automated processes within our users' apps, and we've tried to make it 
+as easy as possible to do so.
 
 ## Creating a new Automation
 
-The process of creating a new automation is quite simple, the easiest method to do this is to run `yarn new` at the 
-top level directory. This will walk you through the steps of creating a new package in the command line - it should be 
-noted that all of the information provided can be easily changed, it will be input to an `automate` section in the new package's
-`package.json`.
+The process of creating a new automation is quite simple. The easiest method to do this is to run `yarn new` at the 
+top level directory. This will walk you through the steps of creating a new automation in the command line. It should be 
+noted that all of the information provided can be easily changed, and will be input to an `automate` section in the new automations's
+`package.json`. This scipt will generate the boilerplate configuration required for new your automation.
 
 The process will appear as such (example is for the Integromat Automation):
 ![image](https://user-images.githubusercontent.com/4407001/93998672-c45e8900-fd8c-11ea-90ff-032550ee9d9f.png)
 
-Once you've ran through this process the package will exist under `packages/<Package Name>` all that is required is adding
-any required packages, updating the `README.md` to provide information about what your automation does and the runner source code,
-found under `src/index.js`. The runner must export an async function with takes the an object of format:
+Once you've ran through this process the package will exist under `packages/<Package Name>`.
+The next step is to develop your automation, using `src/index.js` as your entry point. You can add as many
+dependencies as you require - they'll be automatically bundled with your automation and handled for you.
+
+Your automation must export an async function with takes a single object parameter of format:
 ```
 {
   inputs: {
@@ -27,7 +29,11 @@ found under `src/index.js`. The runner must export an async function with takes 
   instanceId: <CUSTOMER INSTANCE ID>
 }
 ```
-The runner must also return an object in the correct format based on the outputs specified.
+The runner must also return an object in the correct format based on the outputs specified. Check out some of the
+existing automations if you need further clarification.
+
+Once you've finished developing, make sure to update your `README` to describe what your automation does and what the inputs
+and outputs are, so that app builders know how to use your automation.
 
 ## Building and Publishing
 
