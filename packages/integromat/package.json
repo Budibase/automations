@@ -39,7 +39,7 @@
           },
           "value5": {
             "type": "string",
-            "title": "InputValue5"
+            "title": "Input Value 5"
           }
         },
         "required": [
