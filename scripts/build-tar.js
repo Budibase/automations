@@ -1,6 +1,4 @@
-const Controller = require("../src/controller");
+const Controller = require("../src/controller")
 
-const controller = new Controller();
-controller
-  .discoverAutomations()
-  .buildTar();
+const controller = new Controller()
+controller.discoverAutomations().buildTar()

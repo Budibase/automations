@@ -1,5 +1,5 @@
-const fs = require("fs-extra");
-const path = require("path");
+const fs = require("fs-extra")
+const path = require("path")
 
 /**
  * Individual parsed automation.
@@ -7,13 +7,13 @@ const path = require("path");
  * @param rootPath the absolute path to where automations are listed
  * @param name the name of this automation
  */
-module.exports = function(rootPath, name) {
-  const automation = this;
-  automation.rootPath = rootPath;
+module.exports = function (rootPath, name) {
+  const automation = this
+  automation.rootPath = rootPath
   automation.name = name
-  automation.path = path.join(rootPath, name);
-  const packagePath = path.join(automation.path, "package.json");
-  automation.package = require(packagePath);
+  automation.path = path.join(rootPath, name)
+  const packagePath = path.join(automation.path, "package.json")
+  automation.package = require(packagePath)
 
   /**
    * Returns the stub, or unique identifier of this automation version.
@@ -22,10 +22,9 @@ module.exports = function(rootPath, name) {
    * @returns {string} the stub
    */
   automation.getStub = () => {
-    const pkg = automation.package;
-    return `${pkg.name}@${pkg.version}`;
+    const pkg = automation.package
+    return `${pkg.name}@${pkg.version}`
   }
-
 
   /**
    * Returns a short summary of the automation.
@@ -33,8 +32,8 @@ module.exports = function(rootPath, name) {
    * @returns {string} the summary
    */
   automation.getSummary = () => {
-    const pkg = automation.package;
-    return `${automation.getStub()} - ${pkg.description || "No description provided"}`;
+    const pkg = automation.package
+    return `${automation.getStub()} - ${pkg.description || "No description provided"}`
   }
 
   /**
@@ -51,11 +50,11 @@ module.exports = function(rootPath, name) {
       version: automation.package.version,
       stub: automation.getStub(),
       ...automation.package.automate,
-    };
-    const readmePath = path.join(automation.path, "README.md");
-    if (fs.existsSync(readmePath)) {
-      entry.readme = fs.readFileSync(readmePath, "utf8");
     }
-    return entry;
+    const readmePath = path.join(automation.path, "README.md")
+    if (fs.existsSync(readmePath)) {
+      entry.readme = fs.readFileSync(readmePath, "utf8")
+    }
+    return entry
   }
 }

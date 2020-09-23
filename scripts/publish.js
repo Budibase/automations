@@ -1,4 +1,4 @@
-const Controller = require("../src/controller");
+const Controller = require("../src/controller")
 
-const controller = new Controller();
-controller.publish();
+const controller = new Controller()
+controller.publish()
