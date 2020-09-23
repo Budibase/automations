@@ -3,7 +3,7 @@ const axios = require("axios")
 module.exports = async function ({ inputs }) {
   const { url, value1, value2, value3, value4, value5 } = inputs
 
-  const result = await axios.post(webhookUrl, {
+  const result = await axios.post(url, {
     value1,
     value2,
     value3,
