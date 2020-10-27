@@ -9,7 +9,7 @@
   "automate": {
     "tagline": "Send a message to a Discord server",
     "description": "Send a message to a Discord server",
-    "icon": "ri-discord-fill",
+    "icon": "ri-discord-line",
     "stepId": "discord",
     "type": "ACTION",
     "name": "Discord Message",

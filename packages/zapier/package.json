@@ -9,7 +9,7 @@
     "name": "Zapier Webhook",
     "description": "Trigger a Zapier Zap via webhooks",
     "tagline": "Trigger a Zapier Zap",
-    "icon": "ri-flashlight-fill",
+    "icon": "ri-flashlight-line",
     "schema": {
       "inputs": {
         "properties": {
